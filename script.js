@@ -14,18 +14,23 @@ async function translateText() {
     }
 
     try {
-        let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${source}|${target}&mt=1`;
+        let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
 
         let response = await fetch(url);
         let data = await response.json();
 
-        if (data.responseData && data.responseData.translatedText) {
-            document.getElementById("output").innerText =
-                data.responseData.translatedText;
-        } else {
-            document.getElementById("output").innerText =
-                "Translation not available";
+        let translatedText = "";
+
+        if (data && data[0]) {
+            data[0].forEach(item => {
+                if (item[0]) {
+                    translatedText += item[0];
+                }
+            });
         }
+
+        document.getElementById("output").innerText =
+            translatedText || "Translation not available";
 
     } catch (error) {
         document.getElementById("output").innerText =
