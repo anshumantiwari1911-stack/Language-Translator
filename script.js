@@ -14,7 +14,7 @@ async function translateText() {
     }
 
     try {
-        let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${source}|${target}`;
+        let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${source}|${target}&mt=1`;
 
         let response = await fetch(url);
         let data = await response.json();
